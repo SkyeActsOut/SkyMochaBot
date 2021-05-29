@@ -2,7 +2,7 @@ const Discord = require("discord.js");
 
 var client = new Discord.Client();
 
-var config = require ('./config.json');
+// var config = require ('./config.json');
 
 var smGuild;
 var smGeneral;
