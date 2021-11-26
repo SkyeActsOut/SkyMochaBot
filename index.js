@@ -6,6 +6,7 @@ var config = require ('./config.json');
 
 const JSONdb = require('simple-json-db');
 const db = new JSONdb('skydb.json');
+const fs = require('fs');
 
 var smGuild;
 var smGeneral;
@@ -62,11 +63,11 @@ client.on ('ready', () => {
 
 const expire = 27
 const points = 250
-const cooldown = 10
+const cooldown = 5
 let cd = new Set();
 
 // Checks roles at midnight to see who needs to be p u r g e d
-const job = schedule.scheduleJob('* 1 * * *', function(){
+const job = schedule.scheduleJob('0 22 * * *', function(){
 
     Object.entries(db.JSON()).forEach(e => {
 
@@ -89,6 +90,8 @@ const job = schedule.scheduleJob('* 1 * * *', function(){
         }))
 
     })
+
+    fs.copyFileSync("skydb.json", `backups/skydb_${Date.now()}.json`)
 
 });
 
