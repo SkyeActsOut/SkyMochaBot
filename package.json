@@ -11,6 +11,8 @@
   "license": "ISC",
   "dependencies": {
     "discord.js": "^12.2.0",
-    "patreon": "^0.4.1"
+    "node-schedule": "^2.0.0",
+    "patreon": "^0.4.1",
+    "simple-json-db": "^1.2.3"
   }
 }
