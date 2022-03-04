@@ -1,0 +1,9 @@
+{
+
+    "leveling": {
+        "expire": 27,
+        "points": 15,
+        "cooldown": 3
+    }
+
+}
