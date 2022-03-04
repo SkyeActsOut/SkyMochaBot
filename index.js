@@ -121,8 +121,14 @@ client.on ('message', async (message) => {
     // Sends a mee6 like card for server stats
     let card_spelling = ['!card', '!crd', '!rank']
     if (card_spelling.includes (msg)) {
+        let name = ''
+        if (message.member.nickname != null)
+            name = message.member.nickname
+        else
+            name = message.member.user.username
+
         let card = await LeaderBoard.card (
-            message.member.nickname, 
+            name, 
             message.member.joinedAt.toString().split (' ').slice(1, 4).join (' '),
             JSON.parse(db.get(message.author.id)).msgs.length,
             message.author.displayAvatarURL().replace('webp', 'jpg'),
