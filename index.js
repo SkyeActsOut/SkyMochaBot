@@ -20,12 +20,25 @@ var smLogs;
 
 const schedule = require('node-schedule');
 
+const TwitterAPI = require('./twitter')
+var twitter = []
+
 client.on ('ready', () => { 
     smGuild = client.guilds.cache.get ('374361004894846987');
     smGeneral = client.channels.cache.get ('391413861904809995');
     smRoles = client.channels.cache.get ('726473676903415828')
     smIntroductions = client.channels.cache.get ('726489767264518146')
     smLogs = client.channels.cache.get ("913581241800982578")
+
+    twitter = new TwitterAPI(client, Discord.MessageEmbed);
+
+    twitter.send ();
+
+    setInterval(() => {
+        
+        twitter.send();
+
+    }, 1000 * 60 * 30);
 
     client.user.setActivity("SkyMocha", { type: "WATCHING" })
     console.log (`BOT IS ON UNDER ${client.user.tag}`);
@@ -85,7 +98,6 @@ const job = schedule.scheduleJob('0 22 * * *', function(){
 });
 
 client.on ('message', async (message) => {
-
     if (message.author.bot)
         return
 
@@ -120,7 +132,7 @@ client.on ('message', async (message) => {
 
     // Sends a mee6 like card for server stats
     let card_spelling = ['!card', '!crd', '!rank']
-    if (card_spelling.includes (msg)) {
+    if (card_spelling.startsWith('!card')) {
         let name = ''
         if (message.member.nickname != null)
             name = message.member.nickname
