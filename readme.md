@@ -7,6 +7,10 @@ The SkyMocha Discord Bot is a custom made Discord bot for the [SkyMocha Discord 
 ### Front-end Features
 * Integration with the [SkyMocha Website API](https://github.com/SkyMocha/SkyMocha-Website) for accessing the [@skymochi64](https://twitter.com/skymochi64) Twitter feed
 
+* Leaderboard functionality for tracking active members (BROKEN)
+
+* Reaction Roles
+
 Example from the endpoint `/twitter/timenline/`
 ```json
 [
@@ -20,21 +24,21 @@ Example from the endpoint `/twitter/timenline/`
 ]
 ```
 
-* Leaderboard functionality for tracking active members (BROKEN)
-
-* Reaction Roles
-
 ### Back-end Features
 * Custom code for reaction roles
 
 * Custom code for caching and retrieving info (guilds, channels, users, roles)
 
 Roles Example:
+
 `addRole("She/Her")` -> caches a role with the name "She/Her" into an Object (right now `roles`)
+
 `getRole("She/Her")` -> retrieves the role with the name "She/Her" from an Object (right now `roles`)
 
 Guilds Example:
+
 `Channels.addGuild ("SkyMocha")` -> caches the guild SkyMocha into a `Channels` class
+
 `Channels.getGuild ("SkyMocha")` -> retrieves the guild SkyMocha from the `Channels` class
 
 Example uses:
