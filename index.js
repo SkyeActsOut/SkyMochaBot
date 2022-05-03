@@ -1,6 +1,9 @@
 const Discord = require("discord.js");
 
-var client = new Discord.Client();
+const client = new Discord.Client({
+    intents: [Discord.Intents.FLAGS.GUILDS, Discord.Intents.FLAGS.GUILD_MESSAGES, Discord.Intents.FLAGS.GUILD_MESSAGE_REACTIONS],
+    partials: ['MESSAGE', 'CHANNEL', 'REACTION'],
+});
 
 const config = require ('./config.json');
 const settings = require ('./settings.json');
@@ -12,36 +15,69 @@ const fs = require('fs');
 const lb = require('./leaderboard')
 const LeaderBoard = new lb();
 
-var smGuild;
-var smGeneral;
-var smRoles;
-var smIntroductions;
-var smLogs;
-
 const schedule = require('node-schedule');
 
-const TwitterAPI = require('./twitter')
-var twitter = []
+// const TwitterAPI = require('./twitter')
+// var twitter = []
 
-client.on ('ready', () => { 
-    smGuild = client.guilds.cache.get ('374361004894846987');
-    smGeneral = client.channels.cache.get ('391413861904809995');
-    smRoles = client.channels.cache.get ('726473676903415828')
-    smIntroductions = client.channels.cache.get ('726489767264518146')
-    smLogs = client.channels.cache.get ("913581241800982578")
+const _Channels = require('./channels')
+const Channels = new _Channels(client);
+let emojis = {}, roles = {};
 
-    twitter = new TwitterAPI(client, Discord.MessageEmbed);
+function addRole (role) {
+    return Channels.getGuild("SkyMocha").roles.cache.find ( r => r.name.toLowerCase() == role.toLowerCase());
+}
+function getRole (role) {
+    return roles[role.toLowerCase()];
+}
+function addRoleToUser (u, r) {
+    Channels.getGuild("SkyMocha").member(u).roles.add(r);
+}
+function removeRoleFromUser (u, r) {
+    Channels.getGuild("SkyMocha").member(u).roles.remove(r);
+}
 
-    twitter.send ();
+client.on ('ready', () => {
+    // ADD GUILDS
+    Channels.addGuild("SkyMocha", "970308742514090034");
 
-    setInterval(() => {
+    // ADD CHANNELS
+    Channels.addChannel ("Bot Logs", "971019786349846568");
+    Channels.addChannel ("Roles", "970308742983876620")
+
+    // ADD USERS
+    Channels.addUser ("SkyMocha", "340148471338106880");
+
+    emojis = {
+        "He": "🤷‍♂️",
+        "She": "🤷‍♀️",
+        "They": "🤷"
+    }
+
+    Channels.getGuild("SkyMocha").roles.cache.array().forEach (r => {
+        roles[r.name] = addRole(r.name);
+    })
+
+    // twitter = new TwitterAPI(client, Discord.MessageEmbed);
+
+    // twitter.send ();
+
+    // setInterval(() => {
         
-        twitter.send();
+    //     try {
+    //         twitter.send();
+    //     }
+    //     catch {
+    //         Channels.err ("Twitter")
+    //     }
 
-    }, 1000 * 60 * 30);
+    // }, 1000 * 60 * 15);
 
     client.user.setActivity("SkyMocha", { type: "WATCHING" })
-    console.log (`BOT IS ON UNDER ${client.user.tag}`);
+    let msg = `BOT IS ON UNDER ${client.user.tag} @ ${Channels.date()}`
+
+    console.log (msg);
+    // Channels.getChannel("Bot Logs").send(msg)
     
 })
 
@@ -103,7 +139,7 @@ client.on ('message', async (message) => {
 
     let msg = message.content.toLowerCase();
 
-    if (message.author.id == "340148471338106880" && msg.startsWith("!invoke")) { // invokes midnight command
+    if (message.author.id == Channels.getUserID("SkyMocha") && msg.startsWith("!invoke")) { // invokes midnight command
         let args = msg.split(' ')[1]
         if (args != undefined) {
             for (let i = 0; i < parseInt(args); i++)
@@ -115,7 +151,7 @@ client.on ('message', async (message) => {
         }
         message.channel.send(`Invoking Midnight CronJob ${args} Times`);
     }
-    if (message.author.id == "340148471338106880" && msg == "!raw") { // prints out the raw JSON file
+    if (message.author.id == Channels.getUserID("SkyMocha") && msg == "!raw") { // prints out the raw JSON file
         let s = 'First 1,000 chars of skydb.JSON\n'
         Object.entries(db.JSON()).forEach(e => {
             s += `${e[0]}: ${e[1]}\n`
@@ -179,11 +215,56 @@ client.on ('message', async (message) => {
 
 })
 
-client.on ('guildMemberUpdate', (oldUser, newUser) => {
+client.on ('messageReactionAdd', async (reaction, user) => {
 
-    // If the new user has the member role added to them
-    if (smGuild.member (newUser).roles.cache.has('398856287498272771') && !smGuild.member (oldUser).roles.cache.has('398856287498272771'))
-        smGeneral.send(`Welcome, officially, to SkyMocha Café, ${newUser}.\nIf you haven't already, grab your ${smRoles} and make a ${smIntroductions}!`)
+    if (reaction.partial) {
+		try {
+			await reaction.fetch();
+		} catch (error) {
+			console.error('Something went wrong when fetching the message:', error);
+			return;
+		}
+	}
+
+    if (reaction.message.channel == Channels.getChannelID("Roles")) {
+        
+        switch (reaction.emoji.name) {
+            case emojis['He']:
+                addRoleToUser(user, getRole("he/him"))
+            case emojis['She']:
+                addRoleToUser(user, getRole("she/her"))
+            case emojis['They']:
+                addRoleToUser(user, getRole("they/them"))
+
+        }
+
+    }
+
+})
+
+client.on ('messageReactionRemove', async (reaction, user) => {
+
+    if (reaction.partial) {
+		try {
+			await reaction.fetch();
+		} catch (error) {
+			console.error('Something went wrong when fetching the message:', error);
+			return;
+		}
+	}
+
+    if (reaction.message.channel == Channels.getChannelID("Roles")) {
+        
+        switch (reaction.emoji.name) {
+            case emojis['He']:
+                removeRoleFromUser(user, getRole("he/him"))
+            case emojis['She']:
+                removeRoleFromUser(user, getRole("she/her"))
+            case emojis['They']:
+                removeRoleFromUser(user, getRole("they/them"))
+        }
+
+    }
 
 })
 
