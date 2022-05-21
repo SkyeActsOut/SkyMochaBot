@@ -5,11 +5,13 @@ The SkyMocha Discord Bot is a custom made Discord bot for the [SkyMocha Discord 
 
 ## Overview
 ### Front-end Features
-* Integration with the [SkyMocha Website API](https://github.com/SkyMocha/SkyMocha-Website) for accessing the [@skymochi64](https://twitter.com/skymochi64) Twitter feed
+* Integration with the [SkyMocha Website API](https://github.com/SkyMocha/SkyMocha-Website) for accessing the [@skymochi64](https://twitter.com/skymochi64) Twitter feed (CURRENTLY DISABLED)
 
-* Leaderboard functionality for tracking active members (BROKEN)
+* Leaderboard functionality for tracking active members (CURRENTLY BROKEN)
 
 * Reaction Roles
+
+* Kick & Ban commands w/ logging
 
 Example from the endpoint `/twitter/timenline/`
 ```json
@@ -68,13 +70,17 @@ client.on ('messageReactionAdd', async (reaction, user) => {
 This currently used code for the event handler `messageReactionAdd` checks to see if any reaction occurs in the `Roles` channel, then if the role corresponds to a cached emoji `He` it will add the cached role `He/Him` to the `User`.
 
 ## TODO
-### TODO For 2.0
-* Integration w/ Instagram API 
-* Ban & Kick Logging
+### TODO Short-Term
+* Fixing Twitter Timeline
+* Integration w/ Instagram API?
 
 ### TODO Long-Term
 * Fixing !card command
 * QOTD integration
+
+### SCRAPPED
+* Swear/slur filters
+* Leveling (temp?)
 
 ## Lisence
 cc-by-4.0

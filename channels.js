@@ -8,13 +8,15 @@ class _Channels {
     }
 
     addGuild (name, id) {
-        this.guilds[name] = this.client.guilds.cache.get (id);
-        return true;
+        return this.client.guilds.fetch ([id]).then (g => {
+            this.guilds[name] = g;
+        })
     }
 
     addChannel (name, id) {
-        this.channels[name] = this.client.channels.cache.get (id)
-        return true;
+        return this.client.channels.fetch ([id]).then (c => {
+            this.channels[name] = c;
+        })
     }
 
     getGuild (name) {
@@ -29,7 +31,9 @@ class _Channels {
     }
 
     addUser (name, id) {
-        this.users[name] = this.client.users.cache.get(id)
+        return this.client.users.fetch ([id]).then (u => {
+            this.users[name] = u;
+        })
     }
 
     getUser (name) {
