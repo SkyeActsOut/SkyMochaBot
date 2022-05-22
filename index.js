@@ -61,8 +61,8 @@ client.on ('ready', async () => {
         "She": "🤷‍♀️",
         "They": "🤷",
 
-        "Minor": "0️⃣",
-        "Adult": "1️⃣",
+        "Minor": "🐤",
+        "Adult": "🐦",
 
         "OpenDM": "📬",
         "AskDM": "📭",
@@ -159,27 +159,38 @@ client.on ('messageReactionAdd', async (reaction, user) => {
         switch (reaction.emoji.name) {
             case emojis['He']:
                 addRoleToUser(user, getRole("he/him"))
+                break;
             case emojis['She']:
                 addRoleToUser(user, getRole("she/her"))
+                break;
             case emojis['They']:
                 addRoleToUser(user, getRole("they/them"))
+                break;
 
             case emojis['OpenDM']:
                 addRoleToUser(user, getRole("open dms"))
+                break;
             case emojis['AskDM']:
                 addRoleToUser(user, getRole("ask dms"))
+                break;
             case emojis['ClosedDM']:
                 addRoleToUser(user, getRole("closed dms"))
+                break;
 
             case emojis['Minor']:
                 addRoleToUser(user, getRole("17-"))
+                break;
             case emojis['Adult']:
                 addRoleToUser(user, getRole("18+"))
+                break;
 
             case emojis['Question']:
                 addRoleToUser(user, getRole("qotd"))
+                break;
 
         }
+
+        addRoleToUser(user, getRole('member'))
 
     }
 
@@ -201,25 +212,34 @@ client.on ('messageReactionRemove', async (reaction, user) => {
         switch (reaction.emoji.name) {
             case emojis['He']:
                 removeRoleFromUser(user, getRole("he/him"))
+                break;
             case emojis['She']:
                 removeRoleFromUser(user, getRole("she/her"))
+                break;
             case emojis['They']:
                 removeRoleFromUser(user, getRole("they/them"))
+                break;
 
             case emojis['OpenDM']:
                 removeRoleFromUser(user, getRole("open dms"))
+                break;
             case emojis['AskDM']:
                 removeRoleFromUser(user, getRole("ask dms"))
+                break;
             case emojis['ClosedDM']:
                 removeRoleFromUser(user, getRole("closed dms"))
+                break;
 
             case emojis['Minor']:
                 removeRoleFromUser(user, getRole("17-"))
+                break;
             case emojis['Adult']:
                 removeRoleFromUser(user, getRole("18+"))
+                break;
 
             case emojis['Question']:
                 removeRoleFromUser(user, getRole("qotd"))
+                break;
         }
 
     }
