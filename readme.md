@@ -32,7 +32,7 @@ Example from the endpoint `/twitter/timenline/` resolving in an eventual Discord
 ]
 ```
 
-![Twitter Example](temp)
+![Twitter Example](https://github.com/SkyMocha/SkyMochaBot/blob/main/assets/github/Screenshot%202022-06-03%20073508.png?raw=true)
 
 ### Back-end Features
 
