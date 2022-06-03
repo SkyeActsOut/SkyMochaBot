@@ -2,18 +2,19 @@
   "name": "skymocha-bot",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "ts-node index.ts"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.26.1",
-    "canvas": "^2.9.1",
     "discord.js": "^12.5.3",
     "node-schedule": "^2.0.0",
-    "simple-json-db": "^1.2.3"
+    "ts-import": "^3.0.0-beta.1",
+    "ts-node": "^10.8.0",
+    "tslib": "^2.4.0",
+    "typescript": "^4.7.2"
   }
 }
