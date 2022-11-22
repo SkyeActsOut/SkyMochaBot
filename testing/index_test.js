@@ -7,8 +7,8 @@ const client = new Discord.Client({
     partials: ['MESSAGE', 'CHANNEL', 'REACTION', 'USER', 'GUILD_MEMBER'],
 });
 
-const config = require ('./config.json');
-const settings = require ('./settings.json');
+const config = require ('../config.json');
+const settings = require ('../settings.json');
 
 const JSONdb = require('simple-json-db');
 const db = new JSONdb('skydb.json');
@@ -20,12 +20,12 @@ const LeaderBoard = new lb();
 const schedule = require('node-schedule');
 
 var swears = {};
-const swear_list = require('./filter.json');
+const swear_list = require('../filter.json');
 
 // const TwitterAPI = require('./twitter')
 // var twitter = []
 
-const _Channels = require('./channels');
+const _Channels = require('../channels');
 const Channels = new _Channels(client);
 let emojis = {}, roles = {};
 
