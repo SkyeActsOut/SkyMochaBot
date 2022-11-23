@@ -22,7 +22,7 @@ const client = new Discord.Client({
 
 const config = require('./config.json');
 
-import Tootcord from 'tootcord';
+import { Tootcord } from 'tootcord';
 
 const _Channels = require('./channels.ts');
 const Channels = new _Channels(client);
