@@ -122,16 +122,36 @@ client.on('message', async (message: Message) => {
 
     if (msg.startsWith('!m ') && message.author.id == skymocha) {
 
+        let i = 0;
+        let success = [];
+        let success_str = '';
+        let failed = [];
+        let failed_str = '';
+        let len = Object.values(mastos).length;
+
         Object.values(mastos).forEach(async m => {
 
             let toot: boolean = await m.post_toot(msg.slice(2), message.attachments);
 
-            if (toot) {
-                message.reply(' toot sent successfully!')
-            }
-            else
-                message.reply(' toot could not be sent (longer than 500 characters?)')
+            i += 1;
 
+            if (toot) {
+                success.push(m)
+                success_str += `${i}: ${m}`
+            }
+            else {
+                failed.push(m)
+                failed_str += `${i}: ${m}`
+            }
+
+            if (i == len) {
+                message.reply(`
+                    ${success.length}/${len} TOOTS SENT\n
+                    ${success_str}\n
+                    ${failed.length}/${len} TOOTS FAILED\n
+                    ${failed_str}`
+                )
+            }
 
         })
 
