@@ -120,11 +120,18 @@ client.on('message', async (message: Message) => {
 
     let skymocha: Snowflake = Channels.getUser('SkyMocha');
 
-    if (msg.startsWith('!mast ') && message.author.id == skymocha) {
+    if (msg.startsWith('!m ') && message.author.id == skymocha) {
 
-        Object.values(mastos).forEach(m => {
+        Object.values(mastos).forEach(async m => {
 
-            m.post_toot(msg.slice(5), message.attachments)
+            let toot: boolean = await m.post_toot(msg.slice(2), message.attachments);
+
+            if (toot) {
+                message.reply(' toot sent successfully!')
+            }
+            else
+                message.reply(' toot could not be sent (longer than 500 characters?)')
+
 
         })
 
