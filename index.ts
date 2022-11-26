@@ -23,6 +23,9 @@ const client = new Discord.Client({
 const config = require('./config.json');
 
 import { Tootcord } from 'tootcord';
+const Twitcord = require('./api/tweet.ts')
+import TwitterApiBase from 'twitter-api-v2/dist/client.base';
+
 
 const _Channels = require('./channels.ts');
 const Channels = new _Channels(client);
@@ -61,6 +64,8 @@ function addMast(url: string) {
 
 }
 
+var twitter: typeof Twitcord;
+
 client.on('ready', async () => {
     // ADD GUILDS
     await Channels.addGuild("SkyMocha", "970308742514090034");
@@ -77,6 +82,14 @@ client.on('ready', async () => {
     addMast('m.skymocha.net')
     addMast('mastodon.lol')
     addMast('toot.cat')
+
+    twitter = new Twitcord({
+        appKey: config['RECRUIT']['API_KEY'],
+        appSecret: config['RECRUIT']['API_SEC'],
+        accessToken: config['RECRUIT']['ACC_TOKEN'],
+        accessSecret: config['RECRUIT']['ACC_SEC']
+    }
+    );
 
     emojis = {
         "He": "🤷‍♂️",
@@ -128,6 +141,14 @@ client.on('message', async (message: Message) => {
         let failed = [];
         let failed_str = '';
         let len = Object.values(mastos).length;
+        let t = '';
+
+        let tweet: boolean = await twitter.post_tweet(msg.slice(2), message.attachments)
+
+        if (tweet)
+            t = 'TWITTER SENT SUCCESSFULLY'
+        else
+            t = 'TWITTER FAILED'
 
         Object.values(mastos).forEach(async m => {
 
@@ -148,8 +169,11 @@ client.on('message', async (message: Message) => {
                 message.reply(`
                     ${success.length}/${len} TOOTS SENT\n
                     ${success_str}\n
+                    + + + \n
                     ${failed.length}/${len} TOOTS FAILED\n
-                    ${failed_str}`
+                    ${failed_str}\n
+                    + + + \n
+                    ${t}`
                 )
             }
 

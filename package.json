@@ -14,11 +14,15 @@
     "image-downloader": "^4.3.0",
     "megalodon": "^4.1.1",
     "node-schedule": "^2.0.0",
+    "npm": "^9.1.2",
     "request": "^2.88.2",
-    "tootcord": "^0.1.1",
+    "tootcord": "^0.1.5",
     "ts-import": "^3.0.0-beta.1",
     "ts-node": "^10.8.0",
     "tslib": "^2.4.0",
     "typescript": "^4.7.2"
+  },
+  "devDependencies": {
+    "twitter-api-v2": "^1.12.9"
   }
 }

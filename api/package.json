@@ -10,6 +10,7 @@
         "discord.js": "^12.5.3",
         "image-downloader": "^4.3.0",
         "ts-node": "^10.8.0",
+        "twitter": "^1.7.1",
         "typescript": "^4.7.2"
     }
 }
