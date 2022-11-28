@@ -135,6 +135,8 @@ client.on('message', async (message: Message) => {
 
     if (msg.startsWith('!m ') && message.author.id == skymocha) {
 
+        let content: string = message.content.slice(2)
+
         let i = 0;
         let success = [];
         let success_str = '';
@@ -143,7 +145,7 @@ client.on('message', async (message: Message) => {
         let len = Object.values(mastos).length;
         let t = '';
 
-        let tweet: boolean = await twitter.post_tweet(msg.slice(2), message.attachments)
+        let tweet: boolean = await twitter.post_tweet(content, message.attachments)
 
         if (tweet)
             t = 'TWITTER SENT SUCCESSFULLY'
@@ -152,7 +154,7 @@ client.on('message', async (message: Message) => {
 
         Object.values(mastos).forEach(async m => {
 
-            let toot: boolean = await m.post_toot(msg.slice(2), message.attachments);
+            let toot: boolean = await m.post_toot(content, message.attachments);
 
             i += 1;
 
@@ -167,13 +169,11 @@ client.on('message', async (message: Message) => {
 
             if (i == len) {
                 message.reply(`
+                    + + +\n
                     ${success.length}/${len} TOOTS SENT\n
-                    ${success_str}\n
-                    + + + \n
                     ${failed.length}/${len} TOOTS FAILED\n
-                    ${failed_str}\n
-                    + + + \n
-                    ${t}`
+                    ${t}\n
+                    + + +`
                 )
             }
 

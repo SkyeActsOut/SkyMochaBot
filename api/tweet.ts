@@ -46,7 +46,7 @@ class Twitcord {
                 console.log(f.attachment.toString())
                 await download.image({ url: f.attachment.toString(), dest: n })
 
-                let base = 'api/node_modules/image-downloader/'
+                let base = 'node_modules/image-downloader/'
 
                 await this.twit_client.v1.uploadMedia(`${base}${n}`).then(e => {
 
